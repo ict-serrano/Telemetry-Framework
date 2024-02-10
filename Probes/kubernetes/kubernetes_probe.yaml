@@ -1,0 +1,22 @@
+log_level: INFO
+cluster_uuid:
+probe_uuid:
+telemetry_handler:
+  address:
+  port:
+  username:
+  password:
+probe_interface:
+  address: 
+  port: 
+  username:
+  password:
+  exposed_address:
+  exposed_port:
+node_exporter:
+  service_name:
+  namespace:
+k8s:
+  address:
+  port: 
+  token:

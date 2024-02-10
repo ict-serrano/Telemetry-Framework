@@ -1,0 +1,15 @@
+log_level: INFO
+uuid:
+query_timeout:
+query_internal:
+rest_interface:
+  address:
+  port:
+  exposed_service:
+cloud_storage_locations:
+  address:
+operational_db:
+  address:
+  username:
+  password:
+  dbName:

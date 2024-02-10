@@ -1,0 +1,23 @@
+log_level: INFO
+agent_uuid:
+query_timeout:
+query_internal:
+retain_data_period:
+central_handler:
+  service:
+  username:
+  password:
+rest_interface:
+  address:
+  port:
+  exposed_service:
+operational_db:
+  address:
+  username:
+  password:
+  dbName:
+influxDB:
+  address:
+  port:
+  org:
+  token:

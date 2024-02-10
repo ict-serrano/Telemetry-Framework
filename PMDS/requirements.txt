@@ -1,0 +1,7 @@
+Flask
+flask-httpauth
+PyQt5
+requests
+pyyaml
+influxdb_client
+

@@ -1,0 +1,6 @@
+Flask
+flask-httpauth
+pymongo[srv]
+PyQt5
+requests
+pyyaml

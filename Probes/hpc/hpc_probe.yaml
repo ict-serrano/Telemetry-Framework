@@ -1,0 +1,19 @@
+log_level: INFO
+cluster_uuid: 
+probe_uuid: 
+telemetry_handler:
+  address:
+  port:
+  username:
+  password:
+probe_interface:
+  address: 
+  port: 
+  username:
+  password:
+  exposed_address:
+  exposed_port:
+hpc:
+  address:
+  infrastructure: 
+  token:

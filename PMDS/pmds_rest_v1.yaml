@@ -1,0 +1,323 @@
+openapi: 3.0.0
+info:
+  title: SERRANO - Persistent Monitoring Data Storage API
+  description: The REST API of the Persistent Monitoring Data Storage component of the SERRANO platform.
+  version: 1.1.0
+
+paths:
+
+  /api/v1/pmds/nodes/{cluster_uuid}:
+    get:
+      tags:
+        - PMDS
+      summary: Retrieve historical telemetry data for the worker nodes within a K8s cluster.
+      description: ''
+      parameters:
+        - $ref: "#/components/parameters/clusterParam"
+        - name: group
+          in: query
+          description: Determines the group of metrics that the service will return. The telemetry data for the available worker nodes within a K8s cluster are organized into five categories.
+          required: false
+          schema:
+            type: string
+            default: general
+            enum:
+              - general
+              - cpu
+              - memory
+              - storage
+              - network
+        - $ref: "#/components/parameters/startParam"
+        - $ref: "#/components/parameters/stopParam"
+        - name: node_name
+          in: query
+          description: Limits the results only for the pods that are running in the specified node name.
+          required: false
+          schema:
+            type: string
+        - name: field_measurement
+          in: query
+          description: Limits the results only for the selected parameter. The available per group parameters are listed in the schemas bellow (i.e., Nodes_General, Nodes_CPU, Nodes_Memory, Nodes_Storga, Nodes_Network).
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success Response.
+        '400':
+          description: Invalid cluster UUID supplied.
+        '503':
+          description: Service Unavaible.
+   
+  /api/v1/pmds/pvs/{cluster_uuid}:
+    get:
+      tags:
+        - PMDS
+      summary: Provide historical telemetry data for the available Persitent Volumes (PVs) within a K8s cluster.
+      description: ''
+      parameters:
+        - $ref: "#/components/parameters/clusterParam"
+        - $ref: "#/components/parameters/startParam"
+        - $ref: "#/components/parameters/stopParam"
+        - name: name
+          in: query
+          description: Limits the results only for the persistent volume with the provided name.
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/formatParam"
+      responses:
+        '200':
+          description: Success Response.
+        '400':
+          description: Invalid cluster UUID supplied.
+        '503':
+          description: Service Unavaible.
+          
+  /api/v1/pmds/deployments/{cluster_uuid}:
+    get:
+      tags:
+        - PMDS
+      summary: Provide historical telemetry data for the available Deployments within a K8s cluster.
+      description: ''
+      parameters:
+        - $ref: "#/components/parameters/clusterParam"
+        - name: namespace
+          in: query
+          description: Determines the target namespace
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/startParam"
+        - $ref: "#/components/parameters/stopParam"
+        - name: name
+          in: query
+          description: Limits the results only for the deployment with the provided name.
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/formatParam"
+      responses:
+        '200':
+          description: Success Response.
+        '400':
+          description: Invalid cluster UUID supplied.
+        '503':
+          description: Service Unavaible.
+          
+  /api/v1/pmds/pods/{cluster_uuid}:
+    get:
+      tags:
+        - PMDS
+      summary: Provide historical telemetry data for the available Pods within a K8s cluster.
+      description: ''
+      parameters:
+        - $ref: "#/components/parameters/clusterParam"
+        - name: namespace
+          in: query
+          description: Determines the target namespace
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/startParam"
+        - $ref: "#/components/parameters/stopParam"
+        - name: name
+          in: query
+          description: Limits the results only for the pod with the provided name.
+          required: false
+          schema:
+            type: string
+        - name: node_name
+          in: query
+          description: Limits the results only for the pods that are running in the specified node name.
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/formatParam"
+      responses:
+        '200':
+          description: Success Response.
+        '400':
+          description: Invalid cluster UUID supplied.
+        '503':
+          description: Service Unavaible
+  /api/v1/pmds/edge_storage_devices/{cluster_uuid}:
+    get:
+      tags:
+        - PMDS
+      summary: Provide historical telemetry data for the available SERRANO Edge Storage devices within a K8s cluster.
+      description: ''
+      parameters:
+        - $ref: "#/components/parameters/clusterParam"
+        - $ref: "#/components/parameters/startParam"
+        - $ref: "#/components/parameters/stopParam"
+        - name: name
+          in: query
+          description: Limits the results only for the SERRANO Edge Storage device with the provided name.
+          required: false
+          schema:
+            type: string
+        - name: node_name
+          in: query
+          description: Limits the results only for the SERRANO Edge Storage devices that are running in the specified node name.
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/formatParam"
+      responses:
+        '200':
+          description: Success Response.
+        '400':
+          description: Invalid cluster UUID supplied.
+        '503':
+          description: Service Unavaible.
+  /api/v1/pmds/serrano_deployments/{deployment_uuid}:
+    get:
+      tags:
+        - PMDS
+      summary: Provide historical telemetry data for a specific application deployed through the SERRANO orchestration mechanisms.
+      description: ''
+      parameters:
+        - $ref: "#/components/parameters/deploymentParam"
+        - $ref: "#/components/parameters/startParam"
+        - $ref: "#/components/parameters/stopParam"
+        - name: cluster_uuid
+          in: query
+          description: Limits the results only for application services that are running in the specified SERRANO cluster.
+          required: false
+          schema:
+            type: string
+        - name: node_name
+          in: query
+          description: Limits the results only for application services that are running in the specified node name.
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/formatParam"
+      responses:
+        '200':
+          description: Success Response.
+        '400':
+          description: Invalid cluster UUID supplied.
+        '503':
+          description: Service Unavaible.
+          
+servers: []
+components:
+  parameters:
+    clusterParam:
+      name: cluster_uuid
+      in: path
+      description: Determines the K8s cluster.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentParam:
+      name: deployment_uuid
+      in: path
+      description: Determines the SERRANO application.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    startParam:
+      name: start
+      in: query
+      description: Earliest time to include in results, by default is the last 24 hours (-1d). Accepted formats are relative duration (e.g., -30m, -1h, -1d) or unix timestamp in seconds (e.g., 1644838147). Durations are relative to now().
+      required: false
+      schema:
+        type: string
+        default: -1d
+    stopParam:
+      name: stop
+      in: query
+      description: Latest time to include in results. Default is now(). Accepted formats are relative duration (e.g., -30m, -1h, -1d) or unix timestamp in seconds (e.g., 1644838147).Durations are relative to now().
+      required: false
+      schema:
+        type: string
+    formatParam:
+      name: format
+      in: query
+      description: Determines the format of the response. The "raw" format provides the return data in a time series way. The "compact" format organizes the data at a per persistent volume basis.
+      required: false
+      schema:
+        type: string
+        default: compact
+        enum:
+          - compact
+          - raw
+  schemas:
+    Nodes_General:
+      type: object
+      properties:
+        node_boot_time_seconds:
+          type: integer
+        node_total_running_pods:
+          type: integer
+        time:
+          type: string
+    Nodes_CPU:
+      type: object
+      properties:
+        cpu_X_idle:
+          type: integer
+        cpu_X_used:
+          type: integer
+        time:
+          type: integer
+    Nodes_Memory:
+      type: object
+      properties:
+        node_memory_Buffers_bytes:
+          type: integer
+        node_memory_Cached_bytes:
+          type: integer
+        node_memory_MemAvailable_bytes:
+          type: integer
+        node_memory_MemFree_bytes:
+          type: integer
+        node_memory_MemTotal_bytes:
+          type: integer
+        node_memory_MemUsed_bytes:
+          type: integer
+        node_memory_usage_percentage:
+          type: number
+        time:
+          type: string
+    Nodes_Storage:
+      type: object
+      properties:
+        node_filesystem_avail_bytes:
+          type: integer
+        node_filesystem_free_bytes:
+          type: integer
+        node_filesystem_size_bytes:
+          type: integer
+        node_filesystem_used_bytes:
+          type: integer
+        node_filesystem_usage_percentage:
+          type: number
+        time:
+          type: string
+    Nodes_Network:
+      type: object
+      properties:
+        node_network_receive_bytes_total:
+          type: integer
+        node_network_receive_drop_total:
+          type: integer
+        node_network_receive_errs_total:
+          type: integer
+        node_network_receive_packets_total:
+          type: integer
+        node_network_transmit_bytes_total:
+          type: integer
+        node_network_transmit_drop_total:
+          type: integer
+        node_network_transmit_errs_total:
+          type: integer
+        node_network_transmit_packets_total:
+          type: integer
+        time:
+          type: string

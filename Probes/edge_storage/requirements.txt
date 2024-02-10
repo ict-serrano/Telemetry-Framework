@@ -1,0 +1,8 @@
+prometheus-client
+kubernetes
+Flask
+PyQt5
+flask-httpauth
+psutil
+requests
+pyyaml

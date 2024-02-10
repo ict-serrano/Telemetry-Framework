@@ -1,0 +1,9 @@
+log_level:
+influxDB:
+  address:
+  port:
+  org:
+  token:
+rest_interface:
+  address:
+  port:

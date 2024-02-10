@@ -1,0 +1,9 @@
+Flask
+flask-httpauth
+pymongo[srv]
+PyQt5
+requests
+grpcio
+protobuf
+pyyaml
+influxdb_client
